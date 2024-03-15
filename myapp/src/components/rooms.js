@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import Room from "./room";
 
-export default function DetailRooms() {
+export default function Rooms() {
   const params = useParams();
   const [espacioDetails, setEspacioDetails] = useState(null);
 
