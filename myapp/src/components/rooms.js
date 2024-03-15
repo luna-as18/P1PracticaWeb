@@ -8,20 +8,32 @@ export default function Rooms() {
   const params = useParams();
   const [espacioDetails, setEspacioDetails] = useState(null);
 
-  useEffect(() => {
-    const URL =
-      "https://gist.githubusercontent.com/josejbocanegra/92c90d5f2171739bd4a76d639f1271ea/raw/9effd124c825f7c2a7087d4a50fa4a91c5d34558/rooms.json";
-    fetch(URL)
-      .then((data) => data.json()).then((data) => {
-        const filteredRooms = [];
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].homeId === params.espacioId) {
-            filteredRooms.push(data[i]);
-          }
+useEffect(() => {
+    if (!navigator.onLine) {
+        // Si el usuario está offline, intenta recuperar datos de localStorage
+        if (localStorage.getItem("espacioDetails") === null) {
+            // Si no hay datos almacenados en localStorage, establece un estado de "Cargando..."
+            setEspacioDetails("Loading...");
+        } else {
+            // Si hay datos almacenados en localStorage, recupéralos y actualiza el estado
+            setEspacioDetails(JSON.parse(localStorage.getItem("espacioDetails")));
         }
-        setEspacioDetails(filteredRooms);
-      });
-  }, [params.espacioId]);
+    } else {
+        // Si el usuario está online, realiza una solicitud HTTP para obtener los datos
+        const URL = "https://gist.githubusercontent.com/josejbocanegra/92c90d5f2171739bd4a76d639f1271ea/raw/9effd124c825f7c2a7087d4a50fa4a91c5d34558/rooms.json";
+        fetch(URL)
+            .then(response => response.json())
+            .then(data => {
+                // Filtra los datos para encontrar las habitaciones correspondientes al espacioId proporcionado
+                const filteredRooms = data.filter(room => room.homeId === params.espacioId);
+                // Actualiza el estado con los detalles del espacio
+                setEspacioDetails(filteredRooms);
+                // Almacena los detalles del espacio en localStorage para futuras visitas offline
+                localStorage.setItem("espacioDetails", JSON.stringify(filteredRooms));
+            })
+            .catch(error => console.error("Error al recuperar los detalles del espacio:", error));
+    }
+}, [params.espacioId]);
 
   if (!espacioDetails) {
     return <div><FormattedMessage id="Loading..."/></div>;
