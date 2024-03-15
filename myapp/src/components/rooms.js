@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
+import { FormattedMessage } from "react-intl";
 import Room from "./room";
 
 export default function Rooms() {
@@ -23,12 +24,12 @@ export default function Rooms() {
   }, [params.espacioId]);
 
   if (!espacioDetails) {
-    return <div>Loading...</div>;
+    return <div><FormattedMessage id="Loading..."/></div>;
   }
 
   return (
     <div className="container">
-      <h1>My Rooms</h1>
+      <h1><FormattedMessage id="My Rooms"/></h1>
       <hr />
       <Row>
         {espacioDetails.map(room => (

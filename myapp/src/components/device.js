@@ -1,5 +1,6 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
+import { FormattedMessage } from 'react-intl';
 
 function RoomDetail({ devices }) {
   return (
@@ -9,8 +10,8 @@ function RoomDetail({ devices }) {
           <tr>
             <th>#</th>
             <th>ID</th>
-            <th>Device</th>
-            <th>Value</th>
+            <th><FormattedMessage id="Device"/></th>
+            <th><FormattedMessage id="Value"/></th>
           </tr>
         </thead>
         <tbody>

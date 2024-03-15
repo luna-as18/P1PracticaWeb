@@ -1,6 +1,7 @@
 import Espacio from "./espacio";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { FormattedMessage } from "react-intl";
 const { useEffect, useState } = require("react");
 
 function Espacios() {
@@ -17,7 +18,7 @@ function Espacios() {
 
   return (
     <div className="container">
-      <h1>My Spaces</h1>
+      <h1><FormattedMessage id="My Spaces"/></h1>
       <hr />
       <Row>
         {espacios.map(espacio => (
